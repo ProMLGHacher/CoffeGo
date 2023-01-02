@@ -17,7 +17,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object HttpClientModule {
-    private const val urlServer = "http://192.168.0.8:8080"
+    private const val urlServer = "https://server.krea-company.keenetic.pro"
 
     @Provides
     @Singleton
