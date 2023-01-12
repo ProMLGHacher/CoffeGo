@@ -3,6 +3,7 @@ package com.example.coffego.future.debug.all_logins.view_model
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.coffego.domain.error.RequestError
@@ -13,6 +14,7 @@ import com.example.coffego.future.debug.all_logins.model.AllUsersState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -21,6 +23,7 @@ import javax.inject.Inject
 class AllLoginsScreenViewModel @Inject constructor(
     private val usersRepositoryImpl: AllUsersRepository
 ) : ViewModel(), EventBase<AllUsersScreenEvent> {
+
     private val _state =
         mutableStateOf<AllUsersState>(AllUsersState.Static)
     val state: State<AllUsersState> by ::_state
@@ -35,11 +38,12 @@ class AllLoginsScreenViewModel @Inject constructor(
         viewModelScope.launch(
             Dispatchers.IO + CoroutineExceptionHandler { _, throwable ->
                 Log.e(
-                    TAG,
+                    TAG + "CoroutineExceptionHandler::",
                     throwable.message.toString()
                 )
             }
         ) {
+            //_state.value = AllUsersState.Loading
             _state.value = AllUsersState.Loading
             runCatching {
                 usersRepositoryImpl.getAllUsers()

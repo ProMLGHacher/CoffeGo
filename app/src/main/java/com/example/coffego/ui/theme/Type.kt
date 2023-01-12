@@ -1,18 +1,41 @@
 package com.example.coffego.ui.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.example.coffego.R
+
+val fontAmatic = FontFamily(
+    Font(R.font.amatic_sc_bold, weight = FontWeight.Bold),
+    Font(R.font.amatic_sc_regular, weight = FontWeight.Normal),
+)
+
+val fontGilory = FontFamily(
+    Font(R.font.gilroy_bold, weight = FontWeight.Bold),
+    Font(R.font.gilroy_regular, weight = FontWeight.Normal),
+)
 
 // Set of Material typography styles to start with
 val Typography = Typography(
     bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = fontGilory,
         fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
+        fontSize = 14.sp,
+        lineHeight = 20.sp,
+        letterSpacing = 0.5.sp
+    ),
+    headlineLarge = TextStyle(
+        fontFamily = fontAmatic,
+    ),
+    labelLarge = TextStyle(
+        fontFamily = fontGilory,
+        fontWeight = FontWeight.Bold,
+        fontSize = 14.sp,
+        lineHeight = 20.sp,
         letterSpacing = 0.5.sp
     )
     /* Other default text styles to override

@@ -1,30 +1,27 @@
 package com.example.coffego.future.debug.all_logins.view
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.coffego.domain.model.User
+import com.example.coffego.future.common.LoadingWidget
 import com.example.coffego.future.debug.all_logins.model.AllUsersScreenEvent
 import com.example.coffego.future.debug.all_logins.model.AllUsersState
 import com.example.coffego.future.debug.all_logins.view_model.AllLoginsScreenViewModel
 
 @Composable
 fun AllLoginsScreen(
-    viewModel : AllLoginsScreenViewModel = hiltViewModel()
+    viewModel : AllLoginsScreenViewModel
 ) {
     val state by remember {
         viewModel.state
@@ -38,7 +35,7 @@ fun AllLoginsScreen(
                     AllUsersScreenEvent.LoadUsers
                 )
             }
-            AllUsersState.Loading -> Lo()
+            AllUsersState.Loading -> LoadingWidget()
             AllUsersState.Static -> St {
                 run {
                     viewModel.onEvent(
@@ -48,7 +45,11 @@ fun AllLoginsScreen(
             }
             is AllUsersState.Success -> Success(
                 (state as AllUsersState.Success).userList
-            )
+            ) {
+                viewModel.onEvent(
+                    AllUsersScreenEvent.LoadUsers
+                )
+            }
         }
     }
 }
@@ -73,15 +74,6 @@ fun ConErr(
 }
 
 @Composable
-fun Lo() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center) {
-        CircularProgressIndicator()
-    }
-}
-
-@Composable
 fun St(
     onClick: () -> Unit
 ) {
@@ -97,7 +89,8 @@ fun St(
 
 @Composable
 fun Success(
-    userList: List<User>
+    userList: List<User>,
+    onClick: () -> Unit
 ) {
     Box(
         modifier = Modifier.fillMaxSize()
@@ -114,6 +107,16 @@ fun Success(
                         Text(it.password)
                         Text(it.mail.toString())
                         Text(it.name_image.toString())
+                    }
+                }
+            }
+            item {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    Button(
+                        modifier = Modifier.align(Alignment.BottomCenter),
+                        onClick = onClick
+                    ) {
+                        Text("ОБНОВИТЬ")
                     }
                 }
             }

@@ -1,11 +1,9 @@
 package com.example.coffego.data.network.all_users
 
 import android.util.Log
-import com.example.coffego.data.repository.AllUsersRepositoryImpl
 import com.example.coffego.domain.error.RequestError
 import io.ktor.client.*
 import io.ktor.client.call.*
-import io.ktor.client.plugins.*
 import io.ktor.client.request.*
 import javax.inject.Inject
 
