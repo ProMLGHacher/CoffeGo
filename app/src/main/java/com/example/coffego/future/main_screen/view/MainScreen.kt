@@ -26,10 +26,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.example.coffego.R
+import com.example.coffego.data.network.catalog.Product
 import com.example.coffego.future.common.LoadingWidget
 import com.example.coffego.future.debug.all_logins.view.ConErr
 import com.example.coffego.future.main_screen.model.MainScreenState
 import com.example.coffego.future.main_screen.view_model.MainScreenViewModel
+import com.example.coffego.future.navigation.model.Screen
 
 @Composable
 fun MainScreen(
@@ -45,7 +47,7 @@ fun MainScreen(
         MainScreenState.Loading -> LoadingWidget()
         is MainScreenState.Success -> Content(
             viewModel = viewModel,
-            data = (state.value as MainScreenState.Success)
+            data = (state.value as MainScreenState.Success).data
         )
     }
 }
@@ -54,7 +56,7 @@ fun MainScreen(
 @Composable
 private fun Content(
     viewModel: MainScreenViewModel,
-    data: MainScreenState.Success
+    data: Map<String, List<Product>>
 ) {
     val pagerState = rememberPagerState(0, 0f)
     Column(modifier = Modifier.fillMaxSize()) {
@@ -96,47 +98,18 @@ private fun Content(
                 unselectedContentColor = Color.White
             )
         }
-        HorizontalPager(pageCount = 2, state = pagerState) {
-            if (it == 0) A() else B()
+        HorizontalPager(pageCount = data.size, state = pagerState) {
+            Screen(data = data.toList()[it].second)
         }
     }
 }
 
 @Composable
-fun A() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-            .wrapContentSize(Alignment.Center)
-    ) {
-        Text(
-            text = "1",
-            fontWeight = FontWeight.Bold,
-            color = Color.White,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            textAlign = TextAlign.Center,
-            fontSize = 25.sp
-        )
-    }
-}
-
-@Composable
-fun B() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.DarkGray)
-            .wrapContentSize(Alignment.Center)
-    ) {
-        Text(
-            text = "2",
-            fontWeight = FontWeight.Bold,
-            color = Color.White,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            textAlign = TextAlign.Center,
-            fontSize = 25.sp
-        )
+fun Screen(
+    data: List<Product>
+) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Text(data.toString())
     }
 }
 
