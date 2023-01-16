@@ -24,5 +24,4 @@ class AppViewModel @Inject constructor(
             }
             }
         }
-
 }

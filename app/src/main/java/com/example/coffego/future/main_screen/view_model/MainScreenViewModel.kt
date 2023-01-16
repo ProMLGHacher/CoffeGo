@@ -27,7 +27,7 @@ class MainScreenViewModel @Inject constructor(
 
     fun getCatalog() {
         viewModelScope.launch {
-            delay(1200)
+            delay(500)
             runCatching {
                 catalogNetwork.getAll()
             }.onSuccess {

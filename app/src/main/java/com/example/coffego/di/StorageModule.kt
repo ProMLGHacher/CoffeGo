@@ -2,6 +2,7 @@ package com.example.coffego.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.coffego.data.storage.cart.CartStorage
 import com.example.coffego.data.storage.user_storage.UserStorage
 import dagger.Module
 import dagger.Provides
@@ -23,10 +24,17 @@ class StorageModule {
     }
 
     @Provides
+    @Singleton
     fun provideUserStorage(sharedPreferences: SharedPreferences) : UserStorage {
         return UserStorage(
             sharedPreferences = sharedPreferences
         )
+    }
+
+    @Provides
+    @Singleton
+    fun provideCartStorage() : CartStorage {
+        return CartStorage()
     }
 
     companion object {
